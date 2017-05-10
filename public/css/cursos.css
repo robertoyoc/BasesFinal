@@ -1,0 +1,17 @@
+#initial-data{
+	margin-top: 20px;
+	background-color: #018D66;
+	border-radius: 10px;
+	padding: 10px;
+	margin-left: 10%;
+	width: 78%;
+}
+#initial-data input {
+	width: 250px;
+}
+#initial-data p{
+	width: 70px;
+	display: inline-block;
+	margin:5px;
+	margin-left: 0;
+}
