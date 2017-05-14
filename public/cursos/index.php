@@ -30,13 +30,13 @@
 		<h3>Registrar un nuevo curso</h3>
 		<form action="">
 			<p>Nombre:</p><input type="text" name="name" id="name" required><br>
-			<select id="carreras">
+			<p>Carrera:</p><select id="carreras">
 				<option value="IT">IT</option>
 				<option value="IS">IS</option>
 				<option value="CP">CP</option>
 				<option value="LA">LA</option>
-			</select>
-			<p>Clave:</p><input type="text" name="id" id="matrícula" required><br>
+			</select><br>
+			<p>Clave:</p><input type="text" name="id" id="clavemateria" required><br>
 			<p>Instructor:</p><input type="text" name="instructor" id="instructor" required><br>
 			<input type="submit" value="Registrar">
 		</form>
@@ -44,10 +44,83 @@
 	<section id="search">
 		<h3>Buscar información del curso</h3>
 		<form onsubmit="return search()">
-			<p>Calve:</p><input type="text" id="">
+			<p>Calve:</p><input type="text" id="findclave" name="id" required>
+		</form>
+		<br>
+		<form>
+			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
+			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly>
+			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br><br>
 		</form>
 	</section>
 </section>
-
+	<div id="message">
+		
+	</div>
 </body>
+<script type="text/javascript">
+message = $("#message");
+	function registrar(){
+		var name = document.getElementById('name').value;
+		var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
+		var instructor = document.getElementById('instructor').value;
+		var tamaño = clave.length;
+		if(tamaño+1!=10){
+			message.html("La clave debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		}
+		else{
+			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor; 
+			$.ajax({
+			url: "../../php/courseregister.php",
+			type: "POST",		
+			data: dataen
+			}).done(function(echo){
+			if (echo != "") {
+				message.html(echo);
+				message.css("visibility", "visible");
+				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+			}
+		});
+		}
+	return false;
+	}
+	function search(){
+				document.getElementById('carreras').value + document.getElementById('clavemateria').value= "";
+				document.getElementById("name").value= "";
+				document.getElementById("instructor").value= "";
+		var clave = document.getElementById('findclave').value;
+		var tamaño = mat.length;
+		if(tamaño+1!=10){
+			message.html("La clave debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		}
+		else{
+			var dataen = 'clave=' + clave;
+			$.ajax({
+			url: "../../php/coursesearch.php",
+			type: "POST",		
+			data: dataen	
+			}).done(function(echo){
+			var data = echo.split(";");
+			if (data.length == 4) {
+				var data = echo.split(";");
+				document.getElementById("r_clave").value= data[0];
+				document.getElementById("r_name").value= data[1];
+				document.getElementById("r_instructor").value= data[2];
+			}
+			else{
+				message.html("Curso no encontrado");
+				message.css("visibility", "visible");
+				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+			}
+
+		});
+		}
+	return false;
+	}	
+</script>
+
 </html>
