@@ -5,12 +5,10 @@
 	$clave = $_POST['carrera'];
 	$cnumber = $_POST['clavenumber'];
 	$instructor = $_POST['instructor'];
-	$password = $_POST['password'];
 
 	$clavecurso = $clave.$cnumber;
-	$pass = md5($password);
 
-	$query = "insert into curso values ('$clavecurso', '$nombre', '$instructor', '$pass');";
+	$query = "insert into curso values ('$clavecurso', '$nombre', '$instructor');";
 
 	if ($enlace->query($query) === TRUE) {
 		$result = array('status' => "Aceptado", 'msg' => "Curso registrado correctamente");
