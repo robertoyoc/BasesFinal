@@ -11,6 +11,7 @@
 	<title>Control de Asistencia</title>
 	<link rel="stylesheet" type="text/css" href="../css/alumnos.css">
 	<link rel="shorcout icon" href="../../img/notebook.png">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
 
 <body>
@@ -38,19 +39,22 @@
 			</select><br>
 			<p>Clave:</p><input type="text" name="id" id="clavemateria" required><br>
 			<p>Instructor:</p><input type="text" name="instructor" id="instructor" required><br>
+			<p>Contraseña:</p><input type="text" name="password" id="password" required>
 			<input type="submit" value="Registrar">
 		</form>
 	</section>
 	<section id="search">
 		<h3>Buscar información del curso</h3>
 		<form onsubmit="return search()">
-			<p>Calve:</p><input type="text" id="findclave" name="id" required>
+			<p>Clave:</p><input type="text" id="findclave" name="id" required>
+			<input type="submit" value="Buscar">
 		</form>
 		<br>
 		<form>
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
-			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly>
-			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br><br>
+			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly><br>
+			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br>
+			<p>Contraseña:</p><input type="text" id="r_password" name="r_password" readonly><br><br>
 		</form>
 	</section>
 </section>
@@ -64,6 +68,7 @@ message = $("#message");
 		var name = document.getElementById('name').value;
 		var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
 		var instructor = document.getElementById('instructor').value;
+		var password = document.getElementById('password').value;
 		var tamaño = clave.length;
 		if(tamaño+1!=10){
 			message.html("La clave debe tener una extensión de 10 caracteres");
@@ -71,7 +76,7 @@ message = $("#message");
 			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
 		}
 		else{
-			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor; 
+			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor + '&password=' + password; 
 			$.ajax({
 			url: "../../php/courseregister.php",
 			type: "POST",		
@@ -87,11 +92,14 @@ message = $("#message");
 	return false;
 	}
 	function search(){
-				document.getElementById('carreras').value + document.getElementById('clavemateria').value= "";
+				document.getElementById('carreras').value ="";
+				document.getElementById('clavemateria').value= "";
 				document.getElementById("name").value= "";
 				document.getElementById("instructor").value= "";
+				document.getElementById("password").value= "";
 		var clave = document.getElementById('findclave').value;
 		var tamaño = mat.length;
+		var tamañopass = password.length;
 		if(tamaño+1!=10){
 			message.html("La clave debe tener una extensión de 10 caracteres");
 			message.css("visibility", "visible");
@@ -110,6 +118,7 @@ message = $("#message");
 				document.getElementById("r_clave").value= data[0];
 				document.getElementById("r_name").value= data[1];
 				document.getElementById("r_instructor").value= data[2];
+				document.getElementById("r_password").value= data[3];
 			}
 			else{
 				message.html("Curso no encontrado");
