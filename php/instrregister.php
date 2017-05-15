@@ -2,6 +2,7 @@
 	require 'conexion.php';
 
 	$usuario = $_POST['usuario'];
+	$nombre = $_POST['nombre'];
 	$contrasena = $_POST['contrasena'];
 	$nomina = $_POST['nomina'];
 	$correo = $_POST['correo'];
@@ -12,7 +13,7 @@
 
 	if ($enlace->query($queryusers) === TRUE) {
 		$id = $enlace->insert_id;
-		$queryinstr = "insert into instructor values ('$id', '$nomina', '$correo')";
+		$queryinstr = "insert into instructor values ('$id', '$nombre', '$nomina', '$correo')";
 		if ($enlace->query($queryinstr) === TRUE) {		
 			$result = array('status' => "Aceptado", 'msg'=> "Usuario registrado correctamente");
 		}

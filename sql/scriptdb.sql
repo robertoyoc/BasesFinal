@@ -20,6 +20,7 @@ create table alumno(
 
 create table instructor(
 	id int,
+	nombre varchar(20),
 	nomina char(10) unique,
 	correo varchar(30),
 	PRIMARY KEY(id),

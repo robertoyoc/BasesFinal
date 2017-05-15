@@ -1,6 +1,7 @@
 <?php
 	require 'conexion.php';
 	$usuario = $_POST['usuario'];
+	$nombre = $_POST['nombre'];
 	$contrasena = $_POST['contrasena'];
 	$nomina = $_POST['nomina'];
 	$correo = $_POST['correo'];
@@ -27,7 +28,7 @@
 	$pass = md5($contrasena);
 
 	$query = "update usuarios set contrasena = '$pass' where id = $id";
-	$squery = "update instructor set nomina = '$nomina', correo = '$correo' where id = $id";
+	$squery = "update instructor set nomina = '$nomina', nombre= '$nombre', correo = '$correo' where id = $id";
 
 	$primera =$enlace->query($squery);
 
