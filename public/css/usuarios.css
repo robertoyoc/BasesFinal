@@ -42,13 +42,14 @@ section{
 	background-color: #018D66;
 	border-radius: 10px;
 	padding: 10px;
-	margin-left: 30px;
-	margin-right: 30px;
+	margin-left: 10px;
+	margin-right: 10px;
 	width: 38%;
 	height: 250px;
 	display: inline-block;
 	position: relative;
 	vertical-align: top;
+	text-align: center;
 }
 .initial-data p{
 	width: 130px;
@@ -56,22 +57,7 @@ section{
 	margin:5px;
 	margin-left: 0;
 } 
-#search p{
-	width: 130px;
-	display: inline-block;
-	margin:5px;
-	margin-left: 0;
-} 
-#courses p{
-	margin: 5px;
-}
-#courses select{
-	width: 350px;
 
-}
-#courses input{
-	float: right;
-}
 #message{
 	position: fixed;
 	bottom: 0;

@@ -38,7 +38,7 @@
   		</form>
 	</section>
 	<section class="initial-data">
-		<h3>Actualizar información del usuario </h3>
+		<h3>Actualizar información del administrador </h3>
 		<form id="adminsearch">
   			<p>Usuario:</p>  <input name="usuario" id="usuariofield" required="">
   			<input type="submit" value="Buscar">
@@ -55,27 +55,25 @@
 </section>
 <section class="container">
 	<section class="initial-data">
-		<h3>Registrar nuevo usuario</h3>
-		<form>
-			<p>Nombre (s): </p> <input type="text" id="f_name" name="f_name" required><br>
-  			<p>Apellido Paterno:</p>  <input type="text" id="ap_pat" name="ap_pat" required><br>
-  			<p>Apellido Materno:</p>  <input type="text" id="ap_mat" name="ap_mat" required><br>
-  			<p>Matrícula:</p>  <input type="text" id="matricula" name="id" required=""><br><br>
+		<h3>Registrar nuevo instructor</h3>
+		<form id="instrregister">
+			<p>Nómina: </p> <input type="text" id="f_name" name="f_name" required><br>
+  			<p>Correo:</p>  <input type="text" id="ap_pat" name="ap_pat" required><br>
   			<input type="submit" value="Registrar">
   		</form>
 	</section>
-	<section id="search">
-		<h3>Buscar información del alumno </h3>
-		<form onsubmit=" return search()">
-  			<p>Matrícula:</p>  <input type="text" id="findmatricula" name="id" required="">
+	<section class="initial-data">
+		<h3>Actualizar la información del instructor </h3>
+		<form id="instrsearch">
+  			<p>Usuario:</p>  <input name="usuario" id="usuariofield" required="">
   			<input type="submit" value="Buscar">
   		</form>
   		<br>
-  		<form>
-  			<p>Nombre (s): </p> <input type="text" id="rf_name" name="rf_name" readonly><br>
-  			<p>Apellido Paterno:</p>  <input type="text" id="rap_pat" name="rap_pat" readonly><br>
-  			<p>Apellido Materno:</p>  <input type="text" id="rap_mat" name="rap_mat" readonly><br>
-  			<p>Matrícula:</p>  <input type="text" id="rmatricula" name="rmatricula" readonly><br><br>
+  		<form id="instrmodify">
+  			<p>Usuario: </p> <input type="text" id="u_usuario" name="usuario" readonly=""><br>
+  			<p>Nueva contraseña: </p> <input type="password" id="u_contrasena" name="contrasena"><br><br>
+  			<input type="button" id="admindelete" value="Borrar">
+  			<input type="button" id="adminupdate" value="Actualizar">
   		</form>
 	</section>
 
