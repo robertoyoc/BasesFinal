@@ -9,7 +9,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Control de Asistencia</title>
-	<link rel="stylesheet" type="text/css" href="../css/alumnos.css">
+	<link rel="stylesheet" type="text/css" href="../css/cursos.css">
 	<link rel="shorcout icon" href="../../img/notebook.png">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
@@ -29,7 +29,7 @@
 <section class="container">
 	<section id="initial-data">
 		<h3>Registrar un nuevo curso</h3>
-		<form action="">
+		<form onsubmit="return registrar()">
 			<p>Nombre:</p><input type="text" name="name" id="name" required><br>
 			<p>Carrera:</p><select id="carreras">
 				<option value="IT">IT</option>
@@ -38,8 +38,10 @@
 				<option value="LA">LA</option>
 			</select><br>
 			<p>Clave:</p><input type="text" name="id" id="clavemateria" required><br>
-			<p>Instructor:</p><input type="text" name="instructor" id="instructor" required><br>
-			<p>Contraseña:</p><input type="text" name="password" id="password" required>
+			
+
+
+			<p>Contraseña:</p><input type="text" name="password" id="password" required><br>
 			<input type="submit" value="Registrar">
 		</form>
 	</section>
@@ -56,6 +58,36 @@
 			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br>
 			<p>Contraseña:</p><input type="text" id="r_password" name="r_password" readonly><br><br>
 		</form>
+	</section>
+	<section id="update">
+		<h3>Modificar datos de un curso</h3>
+		<form onsubmit="return search()">
+			<p>Clave:</p><input type="text" id="findclave" name="id" required>
+			<input type="submit" value="Buscar">
+		</form>
+		<form onsubmit="return actualizar()">
+			<p>Nombre:</p><input type="text" name="r_name" id="r_name"><br>
+			<p>Clave:</p><input type="text" id="r_clave" name="r_clave"><br>
+			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor"><br>
+			<p>Contraseña:</p><input type="text" id="r_password" name="r_password"><br><br>
+			<p>Inscribir alumno:</p><input type="text" name="matricula" id="matricula">
+			<input type="submit" value="Registrar">
+		</form>
+	</section>
+	<section id="delete">
+		<h3>Eliminar un curso</h3>
+		<form onsubmit="return search()">
+			<p>Clave:</p><input type="text" id="findclave" name="id" required>
+			<input type="submit" value="Buscar">
+		</form>
+		<form onsubmit="return deletecourse()">
+			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
+			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly><br>
+			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br>
+			<p>Contraseña:</p><input type="text" id="r_password" name="r_password" readonly><br><br>
+			<input type="submit">
+		</form>
+		<br>
 	</section>
 </section>
 	<div id="message">
@@ -130,6 +162,42 @@ message = $("#message");
 		}
 	return false;
 	}	
+	function actualizar(){
+		var name = document.getElementById('name').value;
+		var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
+		var instructor = document.getElementById('instructor').value;
+		var password = document.getElementById('password').value;
+		var matricula = document.getElementById('matricula').value;
+		var tamaño = clave.length;
+		var tamañom = matricula.length;
+		if(tamaño+1!=10){
+			message.html("La clave debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		}
+		if(matricula == ""){
+			break;
+		} else if(tamañom+1!=10){
+			message.html("La matrícula del alumno a registrar debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		}
+		else{
+			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor + '&password=' + password + '&matricula' + matricula; 
+			$.ajax({
+			url: "../../php/courseupdate.php",
+			type: "POST",		
+			data: dataen
+			}).done(function(echo){
+			if (echo != "") {
+				message.html(echo);
+				message.css("visibility", "visible");
+				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+			}
+		});
+		}
+	return false;
+	}
 </script>
 
 </html>

@@ -12,11 +12,13 @@ $enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal")
 	$name = $_POST['name'];
 	$instructor = $_POST['instructor'];
 	$password = $_POST['password'];
+	$matricula = $_POST['matricula'];
 
 	$query = "insert into curso values ('$clave', '$name', '$instructor', '$password');";
+	$inscribe = "insert into inscripcion values ('$matricula', 'clave');";
 
 	if ($enlace->query($query) === TRUE) {
-    	echo "Curso registrado correctamente";
+    	echo "Curso actualizado correctamente";
 	}
 	elseif($enlace->errno==1062){
 		echo "Esta clave ya se encuentra registrada";
