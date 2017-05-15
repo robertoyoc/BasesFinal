@@ -72,7 +72,6 @@
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly><br>
 			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br>
-			<p>Contraseña:</p><input type="text" id="r_password" name="r_password" readonly><br><br>
 		</form>
 	</section>
 	<section id="update">
@@ -147,7 +146,9 @@ $("#searchcourse").on('submit', function(e){
 		data: JSONdata,
 		success: function (data){
 			if(data.status=="Encontrado"){
-					$("#clavecurso").val(data.clavecurso);
+					$("#r_clave").val(data.clave);
+					$("#r_name").val(data.nombre);
+					$("#r_instructor").val(data.nomina);
 					showMessage(data.status, 2000);
 				}
 				else{
