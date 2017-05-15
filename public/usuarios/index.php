@@ -2,7 +2,6 @@
 	session_start();
 	if(is_null($_SESSION['perfil'])||$_SESSION['perfil']=='instr')
 		header("Location: ../../");
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,8 +57,9 @@
 		<h3>Registrar nuevo instructor</h3>
 		<form id="instrregister">
 			<p>Usuario: </p> <input type="text" id="i_usuario" name="usuario" required><br>
+			<p>Nombre completo: </p> <input type="text" id="i_nombre" name="nombre"><br>
   			<p>Contraseña: </p>  <input type="password" id="i_contrasena" name="contrasena" required>
-			<p>Nómina: </p> <input type="text" id="nomina" name="nomina" required><br>
+			<p>Nómina: </p> <input type="text" id="nomina" name="nomina"><br>
   			<p>Correo:</p>  <input type="text" id="correo" name="correo" required><br><br>
   			<input type="submit" value="Registrar">
   		</form>
@@ -73,8 +73,9 @@
   		
   		<form id="instrmodify">
 			<p>Usuario: </p> <input type="text" id="ui_usuario" name="usuario" readonly=""><br>
+			<p>Nombre completo: </p> <input type="text" id="ui_nombre" name="nombre" required><br>
   			<p>Nueva contraseña: </p>  <input type="password" id="ui_contrasena" name="contrasena" required>
-			<p>Nómina: </p> <input type="text" id="u_nomina" name="nomina" required><br>
+			<p>Nómina: </p> <input type="text" id="u_nomina" name="nomina"><br>
   			<p>Correo:</p>  <input type="text" id="u_correo" name="correo" required><br><br>
   			<input type="button" id="instrdelete" value="Borrar">
   			<input type="button" id="instrupdate" value="Actualizar">
@@ -189,6 +190,7 @@
 				if(data.status == "Aceptado"){
 					showMessage(data.msg, 3000);
 					$("#nomina").val('');
+					$("#i_nombre").val('');
 					$("#correo").val('');
 					$("#i_usuario").val('');
 					$("#i_contrasena").val('');
@@ -218,6 +220,7 @@
 			success: function(data){
 				if(data.status=="Encontrado"){
 					$("#ui_usuario").val(data.usuario);
+					$("#ui_nombre").val(data.nombre);
 					$("#u_correo").val(data.correo);
 					$("#u_nomina").val(data.nomina);
 					showMessage(data.status, 2000);
@@ -242,6 +245,7 @@
 			success: function(data){
 				showMessage(data.status, 3000);
 				$("#ui_usuario").val('');
+				$("#ui_nombre").val('');
 				$("#ui_contrasena").val('');
 				$("#u_correo").val('');
 				$("#u_nomina").val('');
@@ -261,6 +265,7 @@
 			success: function(data){
 				showMessage(data.status, 5000);
 				$("#ui_usuario").val('');
+				$("#ui_nombre").val('');
 				$("#ui_contrasena").val('');
 				$("#u_correo").val('');
 				$("#u_nomina").val('');
