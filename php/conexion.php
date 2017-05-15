@@ -7,6 +7,5 @@ $enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal")
     	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
     	exit;
 	}
-	
 
 ?>

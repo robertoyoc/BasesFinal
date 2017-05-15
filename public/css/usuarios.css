@@ -87,3 +87,12 @@ section{
 	background-color: transparent;
 	height: auto;
 }
+form p{
+	text-align: right;
+}
+#adminregister{
+	text-align: center;
+}
+.initial-data{
+	text-align: center;
+}
