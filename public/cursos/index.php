@@ -29,23 +29,33 @@
 <section class="container">
 	<section id="initial-data">
 		<h3>Registrar un nuevo curso</h3>
-		<form onsubmit="return registrar()">
+		<form id="courseregister">
 			<p>Nombre:</p><input type="text" name="name" id="name" required><br>
-			<p>Carrera:</p><select id="carreras">
+			<p>Carrera:</p><select name="carrera" id="carreras">
 				<option value="IT">IT</option>
 				<option value="IS">IS</option>
 				<option value="CP">CP</option>
 				<option value="LA">LA</option>
 			</select><br>
-			<p>Clave:</p><input type="text" name="id" id="clavemateria" required><br>
+			<p>Clave:</p><input type="text" name="clavenumber" id="clavemateria" required><br>
 			<?php
-			$instruct = "SELECT nomina FROM instructor ORDER BY id asc"
-			$nominas =  mysql_query ($instruct);
-			<select name="instructores">
-				while ( $inst = mysql_fetch_array($nominas)){
-					echo "<option value='".$inst[id_instructor]."'> ". $id_instructor."</option>";
+			$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
+
+	if (!$enlace) {
+    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
+    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+    	exit;
+	}
+			$query = "SELECT id, nomina FROM instructor ORDER BY id asc";
+			
+			$enlace->real_query($query);
+			$resultado = $enlace->use_result();
+			echo "<select name='instructor'>";
+				while ( $fila = $resultado->fetch_assoc()){
+					echo "<option value='".$fila['id']."'> ". $fila['nomina']."</option>";
 				}
-			</select>
+			echo "</select>"
 			?>
 			<p>Contraseña:</p><input type="text" name="password" id="password" required><br>
 			<input type="submit" value="Registrar">
@@ -104,34 +114,31 @@
 </body>
 <script type="text/javascript">
 message = $("#message");
-	function registrar(){
-		var name = document.getElementById('name').value;
-		var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
-		var instructor = document.getElementById('instructor').value;
-		var password = document.getElementById('password').value;
-		var tamaño = clave.length;
-		if(tamaño+1!=10){
-			message.html("La clave debe tener una extensión de 10 caracteres");
-			message.css("visibility", "visible");
-			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-		}
-		else{
-			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor + '&password=' + password; 
-			$.ajax({
-			url: "../../php/courseregister.php",
-			type: "POST",		
-			data: dataen
-			}).done(function(echo){
-			if (echo != "") {
-				message.html(echo);
-				message.css("visibility", "visible");
-				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+function showMessage(data, time){
+	message.html(data);
+	message.css("visibility", "visible");
+	setTimeout(function(){message.css("visibility", "hidden");  }, time);
+}
+
+$("#courseregister").on('submit', function(e){
+	e.preventDefault();
+	//checar que clave materia sea de 4 
+	var JSONdata = $("#courseregister").serializeArray();
+	$.ajax({
+		url: "../../php/courseregister.php",
+		type: "POST",	
+		dataType: 'JSON',
+		data: JSONdata,
+		success: function (data){
+			if(data.status = "Aceptado"){
+				showMessage(data.msg, 5000);
 			}
-		});
 		}
-	return false;
-	}
-	function search(){
+	});
+});
+
+	
+	/*function search(){
 				document.getElementById('carreras').value ="";
 				document.getElementById('clavemateria').value= "";
 				document.getElementById("name").value= "";
@@ -238,6 +245,7 @@ message = $("#message");
 		});
 		}
 	return false;
+	*/
 </script>
 
 </html>

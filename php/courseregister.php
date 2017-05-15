@@ -1,29 +1,29 @@
 <?php
-$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
+	require 'conexion.php';
 
-	if (!$enlace) {
-    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
-    	exit;
-	}
 
-	$clave = $_POST['clave'];
-	$name = $_POST['name'];
+	$nombre = $_POST['name'];
+	$clave = $_POST['carrera'];
+	$cnumber = $_POST['clavenumber'];
 	$instructor = $_POST['instructor'];
 	$password = $_POST['password'];
 
-	$query = "insert into curso values ('$clave', '$name', '$instructor', '$password');";
+	$clavecurso = $clave.$cnumber;
+	$pass = md5($password);
+
+	$query = "insert into curso values ('$clavecurso', '$nombre', '$instructor', '$pass');";
 
 	if ($enlace->query($query) === TRUE) {
-    	echo "Curso registrado correctamente";
+		$result = array('status' => "Aceptado", 'msg' => "Curso registrado correctamente");
 	}
 	elseif($enlace->errno==1062){
-		echo "Esta clave ya se encuentra registrada";
+		$result = array('status' => "Denegado", 'msg' => "Esta clave ya se encuentra registrada");
 	}
 	else {
-    	echo "Error: " . $query . "<br>" . $enlace->errno;
+    	$Error=  "Error: " . $query . "<br>" . $enlace->errno;
+    	$result = array('status' => "Error", 'msg' => $Error);
 	}
+	echo json_encode($result);
 
 
 ?>
