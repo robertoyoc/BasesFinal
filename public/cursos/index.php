@@ -71,7 +71,27 @@
 		<form>
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly><br>
-			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br>
+			<?php
+			$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
+
+			if (!$enlace) {
+	    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+	    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
+	    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+	    	exit;
+			}
+			$query = "SELECT id, nomina FROM instructor ORDER BY id asc";
+			
+			$enlace->real_query($query);
+			$resultado = $enlace->use_result();
+			echo "<p>Instructor</p><select name='instructor'>";
+				while ( $fila = $resultado->fetch_assoc()){
+					echo "<option value='".$fila['id']."'> ". $fila['nomina']."</option>";
+				}
+			echo "</select><br>"
+			?>
+			<input type="submit" value="Actualizar"><br>
+			<input type="submit" value="Borrar"><br><br>
 		</form>
 	</section>
 	<section id="update">
@@ -148,7 +168,7 @@ $("#searchcourse").on('submit', function(e){
 			if(data.status=="Encontrado"){
 					$("#r_clave").val(data.clave);
 					$("#r_name").val(data.nombre);
-					$("#r_instructor").val(data.nomina);
+					$("#instructor").val(data.nomina);
 					showMessage(data.status, 2000);
 				}
 				else{
