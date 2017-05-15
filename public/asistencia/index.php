@@ -28,6 +28,7 @@ require($_SERVER["DOCUMENT_ROOT"].'\basesfinal\php\conexion.php');
 <section id="cursoselection">
 <h3> Mis Cursos asignados </h3>
 <form id="courseinfo">
+<div class="asd">
 <?php
 $user = $_SESSION['usuario'];
 	$query = "select clave, nombre 
@@ -35,14 +36,19 @@ from curso NATURAL  join instructor NATURAL  join usuarios
 where usuarios.usuario = '$user'";
 			
 	$enlace->real_query($query);
-	$resultado = $enlace->use_result();
+	$resultado = $enlace->store_result();
 	echo "<p>Curso:</p><select name='curso' id='curso'>";
 	while ( $fila = $resultado->fetch_assoc()){
 		echo "<option value='".$fila['clave']."'> ". $fila['nombre']."</option>";
 	}
-	echo "</select>"
+	echo "</select>";
 ?>
-<input type="password" id="pass" name="password">
+</div>
+<div id="sessions" class="asd">
+	Sesión:<select name="session" id="session">
+		<option> </option>
+	</select>
+</div>
 <input type="submit" value="Pasar lista">
 </form>
 	
@@ -50,6 +56,9 @@ where usuarios.usuario = '$user'";
 <section id="list">
 	
 </section>
+<br> <br>
+<input type="submit" id="registrarlista" value="Registrar">
+</form>
 <div id="message">
 
 </div>
@@ -63,13 +72,30 @@ function showMessage(data,time){
 	message.css("visibility", "visible");
 	setTimeout(function(){message.css("visibility", "hidden");  }, time);
 }
+	$('#curso').change(function (){
+		$("#list").html("");
+		var curso = $("#curso").val();
+		var data = "curso=" + curso;
+		$.ajax({
+			url: "../../php/sessionfill.php",
+			data: data,
+			type:'POST',
+			success: function (data){
+				$("#sessions").html(data);
+			}
+
+		});
+
+	});
+
 	$("#courseinfo").on("submit", function (e){
 		e.preventDefault();
-			$("#list").html("");
+		$("#list").html("");
+		var data = $("#courseinfo").serialize();
 
 		$.ajax({
 			url: "../../php/listfill.php",
-			data: "curso=IT1040",
+			data: data,
 			type:'POST',
 			success: function (data){
 				$("#list").html(data);
@@ -77,6 +103,42 @@ function showMessage(data,time){
 
 		});
 	});
+	$("#registrarlista").on('click', function(){
+		
+		var inputs = document.getElementsByClassName( 'inputs' ),
+		
+    	asistentes  = [].map.call(inputs, function( input ) {
+    		if (input.checked)
+        		return input.value;
+
+    	}).join('|');
+    	var inputs = document.getElementsByClassName( 'inputs' ),
+		
+    	faltantes = [].map.call(inputs, function( input ) {
+    		if (!input.checked)
+        		return input.value;
+
+    	}).join('|');
+    	console.log(faltantes);
+    	console.log(asistentes);
+    	var curso = $("#curso").val();
+    	var session = $("#session").val();
+    	var data = "asistentes=" + asistentes + "&faltantes=" + faltantes+ "&curso=" + curso + "&session=" + session;
+    	console.log(data);
+
+
+
+    	$.ajax({
+    		url: "../../php/registerasis.php",
+			data:  data,
+			type:'POST',
+			success: function (data){
+				showMessage(data, 5000);
+			}   
+    	});
+    	
+	});
+
 
 </script>
 </html>

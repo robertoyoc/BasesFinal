@@ -81,6 +81,7 @@ $("#studentregister").on('submit', function (e){
 	}
 	else{
 		var JSONdata = $("#studentregister").serializeArray();
+		console.log(JSONdata);
 		$("#f_name").val('');
 		$("#ap_pat").val('');
 		$("#ap_mat").val('');

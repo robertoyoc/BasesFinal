@@ -10,10 +10,11 @@
 
 
 	if($resultado){
-		echo "<ul>";
+		echo "<form><ul>";
 		while($fila = $resultado->fetch_assoc()){
-			echo "<li>".$fila['nombre']." ".$fila['apellido_pat']." ".$fila['apellido_mat']." - ".$fila['matricula']."<input type='checkbox' value='".$fila['matricula']."'></li>";
+			echo "<li><p>".$fila['nombre']." ".$fila['apellido_pat']." ".$fila['apellido_mat']."</p> - <p>".$fila['matricula']."</p><input class= 'inputs' type='checkbox' value='".$fila['matricula']."'></li>";
 		}
+		echo "</ul></form>";
 	}
 
 
