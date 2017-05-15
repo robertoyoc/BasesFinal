@@ -3,7 +3,7 @@
 
 	$r_clave = $_POST['r_clave'];
 
-	$query = "delete from curso where clave = '$r_clave'";
+	$query = "DELETE FROM curso WHERE clave = '$r_clave'";
 
 	if ($enlace->query($query) === TRUE) {
 		$result = array('status' => "Borrado", 'msg' => "Curso borrado correctamente");

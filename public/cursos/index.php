@@ -19,7 +19,7 @@
 		<ul id="menu">
 			<li class="item"><a href="../admin">Inicio</a></li>
 			<li class="item"><a href="../alumnos">Alumnos</a></li>
-			<li class="item"><a href="../cursos">Cursos</a></li>
+			<li class="item"><a href="../cursos?r_clave=">Cursos</a></li>
 			<li class="item"><a href="#Nosotros">Nosotros</a></li>
 			<li class="item"><a href="#Ayuda">Ayuda</a></li>
 			<li class="item"><a href="../../php/logout.php">Salir</a></li>
@@ -48,7 +48,6 @@
 	    	exit;
 			}
 			$query = "SELECT id, nomina FROM instructor ORDER BY id asc";
-			
 			$enlace->real_query($query);
 			$resultado = $enlace->use_result();
 			echo "<p>Instructor</p><select name='instructor'>";
@@ -61,39 +60,61 @@
 		</form>
 	</section>
 	<section id="search">
-		<h3>Buscar información del curso</h3>
+		<h3>Modificar información del curso</h3>
 		<form id="searchcourse">
 			<p>Clave:</p><input type="text" id="clavecurso" name="clavecurso" required>
 			<input type="submit" value="Buscar">
 		</form>
 		<br>
 		<form id="modifycourse">
-			<p>Nombre:</p><input type="text" name="r_name" id="r_name"><br>
+			<p>Nombre:</p><input type="text" name="name" id="r_name"><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave"><br>
 			<?php
-			$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
+				$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
 
-			if (!$enlace) {
-	    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-	    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-	    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
-	    	exit;
-			}
-			$query = "SELECT id, nomina FROM instructor ORDER BY id asc";
-			
-			$enlace->real_query($query);
-			$resultado = $enlace->use_result();
-			echo "<p>Instructor</p><select name='instructor' id='r_instructor'>";
+				if (!$enlace) {
+			    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+			    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
+			    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+			    	exit;
+				}
+				$claveins = $_GET['r_clave'];
+				$query = "SELECT id, nomina FROM instructor ORDER BY id asc";
+				$enlace->real_query($query);
+				$resultado = $enlace->use_result();
+				$query2 = "SELECT nomina FROM instructor where id = (SELECT instructor
+																	FROM curso
+																	WHERE clave = '$claveins')";
+				$enlace->real_query($query2);
+				$resultado2 = $enlace->use_result();
+				echo "<p>Instructor</p>
+				<select name='instructor' id='r_instructor'>";
+				echo "<option value='".$resultado2."'>".$resultado2."</option>";
 				while ( $fila = $resultado->fetch_assoc()){
 					echo "<option value='".$fila['id']."'> ". $fila['nomina']."</option>";
 				}
-			echo "</select><br>"
+				echo "</select><br>"
 			?>
 			<input type="button" value="Actualizar" id="updatecourse"><br>
 			<input type="button" value="Borrar" id="deletecourse"><br><br>
 		</form>
 	</section>
-
+	<section id="inscribir">
+		<h3>Inscribir alumno</h3>
+		<form id="inscribiralumno">
+			<p>Clave del curso:</p><input type="text" id="r_clave" name="r_clave"><br>
+			<p>Matrícula del alumno:</p><input type="text" id="matricula" name="matricula"><br>
+			<input type="submit" value="Inscribir">
+		</form>
+	</section>
+	<section id="desinscribir">
+		<h3>Desinscribir alumno</h3>
+		<form id="desinsalumnos">
+			<p>Clave del curso:</p><input type="text" id="r_clave" name="r_clave"><br>
+			<p>Matrícula del alumno:</p><input type="text" id="matricula" name="matricula"><br>
+			<input type="submit" value="Desinscribir">
+		</form>
+	</section>
 	<div id="message">
 		
 	</div>
@@ -105,6 +126,40 @@ function showMessage(data, time){
 	message.css("visibility", "visible");
 	setTimeout(function(){message.css("visibility", "hidden");  }, time);
 }
+
+$("#desinscribir").on('submit', function(e){
+	e.preventDefault();
+	//checar que clave materia sea de 4 
+	var JSONdata = $("#desinsalumnos").serializeArray();
+	$.ajax({
+		url: "../../php/coursedesinscribir.php",
+		type: "POST",	
+		dataType: 'JSON',
+		data: JSONdata,
+		success: function (data){
+			if(data.status = "Desinscrito"){
+				showMessage(data.msg, 5000);
+			}
+		}
+	});
+});
+
+$("#inscribir").on('submit', function(e){
+	e.preventDefault();
+	//checar que clave materia sea de 4 
+	var JSONdata = $("#inscribiralumno").serializeArray();
+	$.ajax({
+		url: "../../php/courseinscribir.php",
+		type: "POST",	
+		dataType: 'JSON',
+		data: JSONdata,
+		success: function (data){
+			if(data.status = "Inscrito"){
+				showMessage(data.msg, 5000);
+			}
+		}
+	});
+});
 
 $("#courseregister").on('submit', function(e){
 	e.preventDefault();

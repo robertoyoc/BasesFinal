@@ -8,7 +8,7 @@
 
 	$clavecurso = $clave.$cnumber;
 
-	$query = "insert into curso values ('$clavecurso', '$nombre', '$instructor');";
+	$query = "INSERT INTO curso VALUES ('$clavecurso', '$nombre', '$instructor');";
 
 	if ($enlace->query($query) === TRUE) {
 		$result = array('status' => "Aceptado", 'msg' => "Curso registrado correctamente");

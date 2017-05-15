@@ -1,17 +1,17 @@
 <?php
 	require 'conexion.php';
 
-	$nombre = $_POST['r_name'];
+	$nombre = $_POST['name'];
 	$clave = $_POST['r_clave'];
-	$instructor = $_POST['r_instructor'];
+	$instructor = $_POST['instructor'];
 
-	$query = "update curso 
-			  set clave='$clave', 
+	$query = "UPDATE curso 
+			  SET clave='$clave', 
 			  nombre='$nombre', 
-			  instructor = (select id
-			  				from instructor
-			  				where nomina = '$instructor') 
-			  where clave='$clave'";
+			  instructor = (SELECT id
+			  				FROM instructor
+			  				WHERE nomina = '$instructor') 
+			  WHERE clave='$clave'";
 
 	if ($enlace->query($query) === TRUE) {
     	echo "Curso actualizado correctamente";
@@ -22,6 +22,4 @@
 	else {
     	echo "Error: " . $query . "<br>" . $enlace->errno;
 	}
-
-
 ?>

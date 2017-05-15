@@ -2,7 +2,7 @@
 	require 'conexion.php';
 
 	$clavecurso = $_POST['clavecurso'];
-	$query = "select nomina, clave, nombre from curso, instructor where clave = '$clavecurso' and curso.instructor = instructor.id";
+	$query = "SELECT nomina, clave, nombre FROM curso, instructor WHERE clave = '$clavecurso' AND curso.instructor = instructor.id";
 
 	$enlace->real_query($query);
 	$resultado = $enlace->use_result();

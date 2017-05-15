@@ -62,12 +62,20 @@ section{
 	margin-left: 0;
 } 
 
-#update p{
+#inscribir p{
 	width: 130px;
 	display: inline-block;
 	margin:5px;
 	margin-left: 0;
 } 
+
+#desinscribir p{
+	width: 130px;
+	display: inline-block;
+	margin:5px;
+	margin-left: 0;
+} 
+
 #delete p{
 	width: 130px;
 	display: inline-block;
