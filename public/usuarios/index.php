@@ -57,23 +57,27 @@
 	<section class="initial-data">
 		<h3>Registrar nuevo instructor</h3>
 		<form id="instrregister">
-			<p>Nómina: </p> <input type="text" id="f_name" name="f_name" required><br>
-  			<p>Correo:</p>  <input type="text" id="ap_pat" name="ap_pat" required><br>
+			<p>Usuario: </p> <input type="text" id="i_usuario" name="usuario" required><br>
+  			<p>Contraseña: </p>  <input type="password" id="i_contrasena" name="contrasena" required>
+			<p>Nómina: </p> <input type="text" id="nomina" name="nomina" required><br>
+  			<p>Correo:</p>  <input type="text" id="correo" name="correo" required><br><br>
   			<input type="submit" value="Registrar">
   		</form>
 	</section>
 	<section class="initial-data">
 		<h3>Actualizar la información del instructor </h3>
 		<form id="instrsearch">
-  			<p>Usuario:</p>  <input name="usuario" id="usuariofield" required="">
+  			<p>Usuario:</p>  <input name="usuario" id="instructorfield" required="">
   			<input type="submit" value="Buscar">
   		</form>
   		<br>
   		<form id="instrmodify">
-  			<p>Usuario: </p> <input type="text" id="u_usuario" name="usuario" readonly=""><br>
-  			<p>Nueva contraseña: </p> <input type="password" id="u_contrasena" name="contrasena"><br><br>
-  			<input type="button" id="admindelete" value="Borrar">
-  			<input type="button" id="adminupdate" value="Actualizar">
+			<p>Usuario: </p> <input type="text" id="ui_usuario" name="usuario" required><br>
+  			<p>Nueva contraseña: </p>  <input type="password" id="ui_contrasena" name="contrasena" required>
+			<p>Nómina: </p> <input type="text" id="u_nomina" name="nomina" required><br>
+  			<p>Correo:</p>  <input type="text" id="u_correo" name="correo" required><br><br>
+  			<input type="button" id="instrdelete" value="Borrar">
+  			<input type="button" id="instrupdate" value="Actualizar">
   		</form>
 	</section>
 
@@ -171,6 +175,48 @@
 		
 		})
 
+	});
+	$("#instrregister").on("submit", function(e){
+		e.preventDefault();
+		var JSONdata = $("#instrregister").serializeArray();
+			
+		$.ajax({
+			url: "../../php/instrregister.php",
+			type: "POST",		
+			data: JSONdata,
+			dataType: 'JSON',
+			success: function(data){
+				showMessage(data.msg, 3000);
+				$("#nomina").val('');
+			}
+		
+		})
+
+	});
+	$("#instrsearch").on("submit", function (e){
+		e.preventDefault();
+		var JSONdata = $("#instrsearch").serializeArray();
+
+		$("#usuariofield").val("");
+
+		$.ajax({
+			url: "../../php/adminsearch.php",
+			type: "POST",		
+			data: JSONdata,
+			dataType: 'JSON',
+			success: function(data){
+				if(data.status=="Encontrado"){
+					$("#u_usuario").val(data.usuario);
+					showMessage(data.status, 2000);
+				}
+				else{
+					showMessage(data.status, 3000);
+				}
+				
+			}	
+		
+		})
+			
 	});
 
 

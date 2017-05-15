@@ -3,21 +3,38 @@
 
 	$usuario = $_POST['usuario'];
 	$contrasena = $_POST['contrasena'];
+	$nomina = $_POST['nomina'];
+	$correo = $_POST['correo'];
 
 	$pass = md5($contrasena);
 
-	$query = "insert into usuarios(usuario, contrasena, perfil) values ('$usuario', '$pass', 'admin');";
+	$queryusers = "insert into usuarios(usuario, contrasena, perfil) values ('$usuario', '$pass', 'instr');";
 
-	if ($enlace->query($query) === TRUE) {
-		$result = array('status' => "Usuario registrado correctamente");
+	if ($enlace->query($queryusers) === TRUE) {
+		$id = $enlace->insert_id;
+		$queryinstr = "insert into instructor values ('$id', '$nomina', '$correo')";
+		if ($enlace->query($queryinstr) === TRUE) {		
+			$result = array('status' => "Aceptado", 'msg'=> "Usuario registrado correctamente");
+		}
+		elseif($enlace->errno==1062){
+			$queryaux = "delete from usuarios where id = '$id'";
+			$enlace ->query($queryaux);
+			$result = array('status' => "Denegado", 'msg'=> "Esta nomina ya se encuentra registrada");
+		}
+		else {
+		$Error =  "Error: " . $query . "<br>" . $enlace->errno;
+		$result = array('status' => "Error", 'msg' => $Error);
+		}
 	}
 	elseif($enlace->errno==1062){
-		$result = array('status' => "Este usuario ya se encuentra registrado");
+		$result = array('status' => "Denegado", 'msg'=> "Este usuario ya se encuentra registrado");
 	}
 	else {
 		$Error =  "Error: " . $query . "<br>" . $enlace->errno;
-		$result = array('status' => $Error);
+		$result = array('status' => "Error", 'msg' => $Error);
 	}
+
+	
 	echo json_encode($result);
 
 
