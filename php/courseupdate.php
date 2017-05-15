@@ -13,13 +13,17 @@
 			  				WHERE nomina = '$instructor') 
 			  WHERE clave='$clave'";
 
+
+
 	if ($enlace->query($query) === TRUE) {
-    	echo "Curso actualizado correctamente";
+    	$result  = array('status' => , "Curso actualizado correctamente");
 	}
 	elseif($enlace->errno==1062){
-		echo "Esta clave ya se encuentra registrada";
+		$result  = array('status' => , "Esta clave ya se encuentra registrada");
 	}
 	else {
-    	echo "Error: " . $query . "<br>" . $enlace->errno;
+    	$Error= "Error: " . $query . "<br>" . $enlace->errno;
+    	$result  = array('status' => , $Error);
 	}
+	echo json_encode($result);
 ?>

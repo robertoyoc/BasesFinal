@@ -211,8 +211,14 @@ $("#updatecourse").on('click', function(){
 		dataType: 'JSON',
 		data: JSONdata,
 		success: function (data){
-			showMessage(data.msg, 5000);
-		}
+			alert("");
+			message.html(data);
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		},
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                }   
 	});
 });
 
