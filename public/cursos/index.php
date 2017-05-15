@@ -41,21 +41,21 @@
 			<?php
 			$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
 
-	if (!$enlace) {
-    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
-    	exit;
-	}
+			if (!$enlace) {
+	    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+	    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
+	    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+	    	exit;
+			}
 			$query = "SELECT id, nomina FROM instructor ORDER BY id asc";
 			
 			$enlace->real_query($query);
 			$resultado = $enlace->use_result();
-			echo "<select name='instructor'>";
+			echo "<p>Instructor</p><select name='instructor'>";
 				while ( $fila = $resultado->fetch_assoc()){
 					echo "<option value='".$fila['id']."'> ". $fila['nomina']."</option>";
 				}
-			echo "</select>"
+			echo "</select><br>"
 			?>
 			<p>Contraseña:</p><input type="text" name="password" id="password" required><br>
 			<input type="submit" value="Registrar">
@@ -63,8 +63,8 @@
 	</section>
 	<section id="search">
 		<h3>Buscar información del curso</h3>
-		<form onsubmit="return search()">
-			<p>Clave:</p><input type="text" id="findclave" name="id" required>
+		<form id="searchcourse">
+			<p>Clave:</p><input type="text" id="findclave" name="clavecurso" required>
 			<input type="submit" value="Buscar">
 		</form>
 		<br>
@@ -123,6 +123,14 @@ function showMessage(data, time){
 $("#courseregister").on('submit', function(e){
 	e.preventDefault();
 	//checar que clave materia sea de 4 
+	var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
+	var tamaño = clave.length;
+	if(tamaño+1!=6){
+			message.html("La clave debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+			break;
+		}
 	var JSONdata = $("#courseregister").serializeArray();
 	$.ajax({
 		url: "../../php/courseregister.php",
@@ -137,6 +145,30 @@ $("#courseregister").on('submit', function(e){
 	});
 });
 
+$("#searchcourse").on('submit', function(e){
+	e.preventDefault();
+	//checar que clave materia sea de 4 
+	var clave = document.getElementById('clavecurso').value;
+	var tamaño = clave.length;
+	if(tamaño+1!=6){
+			message.html("La clave debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+			break;
+		}	
+	var JSONdata = $("#searchcourse").serializeArray();
+	$.ajax({
+		url: "../../php/coursesearch.php",
+		type: "POST",	
+		dataType: 'JSON',
+		data: JSONdata,
+		success: function (data){
+			if(data.status = "Aceptado"){
+				showMessage(data.msg, 5000);
+			}
+		}
+	});
+});
 	
 	/*function search(){
 				document.getElementById('carreras').value ="";

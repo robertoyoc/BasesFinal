@@ -1,35 +1,20 @@
 <?php
-$enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal");
+	require 'conexion.php';
 
-	if (!$enlace) {
-    	echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-    	echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-    	echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
-    	exit;
+	$clavecurso = $_POST['clavecurso'];
+
+	$query = "select * from course where clave = '$clavecurso'";
+
+	if ($enlace->query($query) === TRUE) {
+		$result = array('status' => "Encontrado", 'msg' => "Curso enconyrado correctamente");
 	}
-
-	$clave = $_POST['clave'];
-
-	$query = "select * from course where clave = '$clave'";
-
-	$enlace->real_query($query);
-	$resultado = $enlace->use_result();
-	
-	if($resultado){
-		session_start();
-		$fila = $resultado->fetch_assoc();
-		if(isset($fila)){
-			
-			echo $fila['clave'].";".$fila['name'].";".$fila['instructor'].";".$fila['contraseña'];
-		}
-		else
-			die("No encontrado");
-
+	elseif($enlace->errno==1062){
+		$result = array('status' => "No encontrado", 'msg' => "Este curso no se encuentra registrado");
 	}
-	else
-	{
-		die("No encontrado");
+	else {
+    	$Error=  "Error: " . $query . "<br>" . $enlace->errno;
+    	$result = array('status' => "Error", 'msg' => $Error);
 	}
-
+	echo json_encode($result);
 
 ?>

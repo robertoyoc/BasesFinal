@@ -1,7 +1,6 @@
 <?php
 	require 'conexion.php';
 
-
 	$nombre = $_POST['name'];
 	$clave = $_POST['carrera'];
 	$cnumber = $_POST['clavenumber'];
