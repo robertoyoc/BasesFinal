@@ -49,11 +49,15 @@ section{
 	position: relative;
 	vertical-align: top;
 }
+.initial-data{
+	text-align: center;
+}
 .initial-data p{
 	width: 130px;
 	display: inline-block;
 	margin:5px;
 	margin-left: 0;
+	text-align: right;
 } 
 #search p{
 	width: 130px;

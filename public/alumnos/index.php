@@ -28,7 +28,7 @@
 		</ul>
 </header>
 <section class="container">
-	<section id="initial-data">
+	<section class="initial-data">
 		<h3>Registrar nuevo alumno</h3>
 		<form onsubmit="return registrar()">
 			<p>Nombre (s): </p> <input type="text" id="f_name" name="f_name" required><br>
@@ -38,7 +38,7 @@
   			<input type="submit" value="Registrar">
   		</form>
 	</section>
-	<section id="search">
+	<section class="initial-data">
 		<h3>Buscar información del alumno </h3>
 		<form onsubmit=" return search()">
   			<p>Matrícula:</p>  <input type="text" id="findmatricula" name="id" required="">
