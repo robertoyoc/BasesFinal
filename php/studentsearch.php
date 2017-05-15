@@ -1,5 +1,7 @@
 <?php
+
 	require 'conexion.php';
+
 	$matricula = $_POST['matricula'];
 
 	$query = "select * from alumno where matricula = '$matricula'";

@@ -1,4 +1,5 @@
 <?php
+
 	require 'conexion.php';
 
 	$matricula = $_POST['matricula'];

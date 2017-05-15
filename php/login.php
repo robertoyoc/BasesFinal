@@ -1,4 +1,5 @@
 <?php
+
 	require 'conexion.php';
 
 	$contr = $_POST['password'];

@@ -31,7 +31,6 @@ create table curso(
 	clave char(6),
 	nombre varchar(20),
 	instructor int,
-	password varchar(20),
 	PRIMARY KEY(clave),
 	FOREIGN KEY (instructor) references instructor(id)
 );

@@ -1,17 +1,111 @@
-#initial-data{
+body{
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background-image: url("../img/studentregister.jpg");
+	color: white;
+}
+#menu{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #0377C2;
+	border-radius: 10px;
+	width: 70%;
+	margin-left: 15%;
+	margin-top: 20px;
+	display: block;
+}
+
+.item{
+	float: left;
+}
+.item:last-child{
+	float: right;
+}
+.item a{
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 16px;
+	text-decoration: none;
+}
+.item:hover{
+	background-color: #01318E;
+}
+section{
 	margin-top: 20px;
 	background-color: #018D66;
 	border-radius: 10px;
 	padding: 10px;
-	margin-left: 10%;
-	width: 78%;
-}
-#initial-data input {
-	width: 250px;
+	margin-left: 30px;
+	margin-right: 30px;
+	width: 38%;
+	height: 290px;
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
 }
 #initial-data p{
-	width: 70px;
+	width: 130px;
 	display: inline-block;
 	margin:5px;
 	margin-left: 0;
+} 
+#search p{
+	width: 130px;
+	display: inline-block;
+	margin:5px;
+	margin-left: 0;
+} 
+
+#inscribir p{
+	width: 130px;
+	display: inline-block;
+	margin:5px;
+	margin-left: 0;
+} 
+
+#desinscribir p{
+	width: 130px;
+	display: inline-block;
+	margin:5px;
+	margin-left: 0;
+} 
+
+#delete p{
+	width: 130px;
+	display: inline-block;
+	margin:5px;
+	margin-left: 0;
+} 
+
+#courses p{
+	margin: 5px;
+}
+#courses select{
+	width: 350px;
+
+}
+#courses input{
+	float: right;
+}
+#message{
+	position: fixed;
+	bottom: 0;
+	left: 20%;
+	width: 60%;
+	visibility: hidden;
+	height:80px;
+	padding: 10px;
+	background-color:  #018D31;
+}
+.container{
+	width: 100%;
+	display: block;
+	background-color: transparent;
+	height: auto;
 }
