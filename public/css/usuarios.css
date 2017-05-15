@@ -6,6 +6,7 @@ body{
 	margin: 0;
 	background-image: url("../img/studentregister.jpg");
 	color: white;
+	overflow: hidden;
 }
 #menu{
 	list-style-type: none;
@@ -37,7 +38,7 @@ body{
 	background-color: #01318E;
 }
 section{
-	margin-top: 20px;
+	margin-top: 10px;
 	background-color: #018D66;
 	border-radius: 10px;
 	padding: 10px;
@@ -86,6 +87,7 @@ section{
 	display: block;
 	background-color: transparent;
 	height: auto;
+	padding: 0;
 }
 form p{
 	text-align: right;
@@ -95,4 +97,5 @@ form p{
 }
 .initial-data{
 	text-align: center;
+	padding-top: 0px;
 }
