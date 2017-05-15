@@ -17,6 +17,7 @@
 			<li class="item"><a href="../admin">Inicio</a></li>
 			<li class="item"><a href="../alumnos">Alumnos</a></li>
 			<li class="item"><a href="../cursos">Cursos</a></li>
+			<li class="item"><a href="../usuarios">Usuarios</a></li>
 			<li class="item"><a href="#Nosotros">Nosotros</a></li>
 			<li class="item"><a href="#Ayuda">Ayuda</a></li>
 			<li class="item"><a href="../../php/logout.php">Salir</a></li>

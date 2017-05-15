@@ -10,7 +10,7 @@
 	<meta charset="utf-8">
 	<title>Control de Asistencia</title>
 	<link rel="stylesheet" type="text/css" href="../css/alumnos.css">
-	<link rel="shorcout icon" href="../../img/notebook.png">
+	<link rel="shorcout icon" href="../img/notebook.png">
 </head>
 
 <body>
@@ -19,6 +19,7 @@
 			<li class="item"><a href="../admin">Inicio</a></li>
 			<li class="item"><a href="../alumnos">Alumnos</a></li>
 			<li class="item"><a href="../cursos">Cursos</a></li>
+			<li class="item"><a href="../usuarios">Usuarios</a></li>
 			<li class="item"><a href="#Nosotros">Nosotros</a></li>
 			<li class="item"><a href="#Ayuda">Ayuda</a></li>
 			<li class="item"><a href="../../php/logout.php">Salir</a></li>
