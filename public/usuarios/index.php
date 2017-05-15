@@ -70,7 +70,7 @@
   			<p>Usuario:</p>  <input name="usuario" id="instructorfield" required="">
   			<input type="submit" value="Buscar">
   		</form>
-  		<br>
+  		
   		<form id="instrmodify">
 			<p>Usuario: </p> <input type="text" id="ui_usuario" name="usuario" readonly=""><br>
   			<p>Nueva contraseña: </p>  <input type="password" id="ui_contrasena" name="contrasena" required>
