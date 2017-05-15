@@ -43,7 +43,7 @@ create table sesion(
 	hora_fin time,
 	lugar varchar(20),
 	PRIMARY KEY(num_sesion, curso),
-	FOREIGN KEY (curso) references curso(clave) on delete cascade
+	FOREIGN KEY (curso) references curso(clave) on delete cascade on update cascade
 );
 
 
@@ -51,8 +51,8 @@ create table inscripcion(
 	matricula char(10),
 	clave char(6),
 	PRIMARY KEY(matricula, clave),
-	FOREIGN KEY(matricula) references alumno(matricula) on delete cascade,
-	FOREIGN KEY(clave) references curso(clave) on delete cascade
+	FOREIGN KEY(matricula) references alumno(matricula) on delete cascade on update cascade,
+	FOREIGN KEY(clave) references curso(clave) on delete cascade on update cascade
 );
 
 create table asistencias(
@@ -61,8 +61,8 @@ create table asistencias(
 	curso char(6),
 	asistencia boolean,
 	PRIMARY KEY(matricula, num_sesion, curso),
-	FOREIGN KEY(matricula) references alumno(matricula) on delete cascade,
-	FOREIGN KEY(num_sesion, curso) references sesion(num_sesion, curso) on delete cascade
+	FOREIGN KEY(matricula) references alumno(matricula) on delete cascade on update cascade,
+	FOREIGN KEY(num_sesion, curso) references sesion(num_sesion, curso) on delete cascade on update cascade
 );
 
 

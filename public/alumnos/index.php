@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	if(is_null($_SESSION['perfil']))
+	if(is_null($_SESSION['perfil'])||$_SESSION['perfil']=='instr')
 		header("Location: ../../");
 
 ?>
