@@ -9,14 +9,16 @@
 	$query = "insert into alumno values ('$matricula', '$nombre', '$apellido_pat', '$apellido_mat');";
 
 	if ($enlace->query($query) === TRUE) {
-    	echo "Alumno registrado correctamente";
+    	$result = array('status' => "Alumno registrado correctamente");
 	}
 	elseif($enlace->errno==1062){
-		echo "Esta matricula ya se encuentra registrada";
+		$result = array('status' => "Esta matricula ya se encuentra registrada");
 	}
 	else {
-    	echo "Error: " . $query . "<br>" . $enlace->errno;
+    	$Error =  "Error: " . $query . "<br>" . $enlace->errno;
+		$result = array('status' => $Error);
 	}
+	echo json_encode($result);
 
 
 ?>

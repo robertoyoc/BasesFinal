@@ -10,18 +10,29 @@
 	if($resultado){
 		session_start();
 		$fila = $resultado->fetch_assoc();
-		if(isset($fila)){
-			
-			echo $fila['matricula'].";".$fila['nombre'].";".$fila['apellido_pat'].";".$fila['apellido_mat'];
+		if($fila['matricula'] != ""){
+			$result = array(
+				'status' => "Encontrado",
+				'matricula' => $fila['matricula'],
+				'nombre' => $fila['nombre'],
+				'ap_pat' => $fila['apellido_pat'],
+				'ap_mat' => $fila['apellido_mat']
+
+
+				);
 		}
 		else
-			die("No encontrado");
+			$result = array(
+				'status' => "No encontrado");
 
 	}
 	else
 	{
-		die("No encontrado");
+		$result = array(
+				'status' => "No encontrado");
+			
 	}
+	echo json_encode($result)
 
 
 ?>
