@@ -68,7 +68,7 @@
 			<input type="submit" value="Buscar">
 		</form>
 		<br>
-		<form>
+		<form id="searchcourse">
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly><br>
 			<?php
@@ -84,14 +84,14 @@
 			
 			$enlace->real_query($query);
 			$resultado = $enlace->use_result();
-			echo "<p>Instructor</p><select name='instructor'>";
+			echo "<p>Instructor</p><select name='instructor' id='instructor'>";
 				while ( $fila = $resultado->fetch_assoc()){
 					echo "<option value='".$fila['id']."'> ". $fila['nomina']."</option>";
 				}
 			echo "</select><br>"
 			?>
-			<input type="submit" value="Actualizar"><br>
-			<input type="submit" value="Borrar"><br><br>
+			<input type="submit" value="Actualizar" id="updatecourse"><br>
+			<input type="submit" value="Borrar" id="deletecourse"><br><br>
 		</form>
 	</section>
 	<section id="update">
