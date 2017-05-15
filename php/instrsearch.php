@@ -3,7 +3,7 @@
 
 	$usuario = $_POST['usuario'];
 
-	$query = "select id, usuario from usuarios where usuario= '$usuario'";
+	$query = "select usuario, nomina, correo, perfil from usuarios, instructor where usuario= '$usuario' and usuarios.id = instructor.id";
 
 	$enlace->real_query($query);
 	$resultado = $enlace->use_result();
@@ -11,19 +11,11 @@
 
 	if($resultado){
 		$fila = $resultado->fetch_assoc();
-		if($fila['usuario'] != ""){
-
-			$localuser = $fila['usuario'];
-			$id = $fila['id'];
-
-			$s_query = "select nomina, correo from instructor where id = '$id'";
-			$enlace->real_query($s_query);
-			$resultado = $enlace->use_result();
-
-			$result = array('status' => 'Encontrado', 'usuario' => $fila['usuario'], );
+		if($fila['usuario'] != "" && $fila['perfil']== "instr"){
+			$result = array('status' => 'Encontrado', 'usuario' => $fila['usuario'], 'correo' => $fila['correo'], 'nomina' => $fila['nomina'],);
 		}
 		else{
-			$result = array('usuario' => "", 'status' => 'Error, no encontrado');
+			$result = array('status' => 'Error, no encontrado');
 		}
 
 	}

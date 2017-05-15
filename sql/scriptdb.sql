@@ -23,7 +23,7 @@ create table instructor(
 	nomina char(10) unique,
 	correo varchar(30),
 	PRIMARY KEY(id),
-	FOREIGN KEY (id) references usuarios(id) on delete cascade
+	FOREIGN KEY (id) references usuarios(id) on delete cascade on update cascade
 );
 
 create table curso(

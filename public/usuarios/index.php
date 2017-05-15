@@ -72,7 +72,7 @@
   		</form>
   		<br>
   		<form id="instrmodify">
-			<p>Usuario: </p> <input type="text" id="ui_usuario" name="usuario" required><br>
+			<p>Usuario: </p> <input type="text" id="ui_usuario" name="usuario" readonly=""><br>
   			<p>Nueva contraseña: </p>  <input type="password" id="ui_contrasena" name="contrasena" required>
 			<p>Nómina: </p> <input type="text" id="u_nomina" name="nomina" required><br>
   			<p>Correo:</p>  <input type="text" id="u_correo" name="correo" required><br><br>
@@ -146,7 +146,7 @@
 		var JSONdata = $("#adminmodify").serializeArray();
 			
 		$.ajax({
-			url: "../../php/admindelete.php",
+			url: "../../php/deleteuser.php",
 			type: "POST",		
 			data: JSONdata,
 			dataType: 'JSON',
@@ -186,8 +186,19 @@
 			data: JSONdata,
 			dataType: 'JSON',
 			success: function(data){
-				showMessage(data.msg, 3000);
-				$("#nomina").val('');
+				if(data.status == "Aceptado"){
+					showMessage(data.msg, 3000);
+					$("#nomina").val('');
+					$("#correo").val('');
+					$("#i_usuario").val('');
+					$("#i_contrasena").val('');
+					
+				}
+				else{
+					showMessage(data.msg, 5000);
+					$("#nomina").val('');
+				}
+
 			}
 		
 		})
@@ -197,26 +208,66 @@
 		e.preventDefault();
 		var JSONdata = $("#instrsearch").serializeArray();
 
-		$("#usuariofield").val("");
+		$("#instructorfield").val("");
 
 		$.ajax({
-			url: "../../php/adminsearch.php",
+			url: "../../php/instrsearch.php",
 			type: "POST",		
 			data: JSONdata,
 			dataType: 'JSON',
 			success: function(data){
 				if(data.status=="Encontrado"){
-					$("#u_usuario").val(data.usuario);
+					$("#ui_usuario").val(data.usuario);
+					$("#u_correo").val(data.correo);
+					$("#u_nomina").val(data.nomina);
 					showMessage(data.status, 2000);
 				}
 				else{
-					showMessage(data.status, 3000);
+					showMessage(data.status, 5000);
 				}
 				
 			}	
 		
-		})
+		});
 			
+	});
+	$("#instrdelete").on("click", function(){
+		var JSONdata = $("#instrmodify").serializeArray();
+			
+		$.ajax({
+			url: "../../php/deleteuser.php",
+			type: "POST",		
+			data: JSONdata,
+			dataType: 'JSON',
+			success: function(data){
+				showMessage(data.status, 3000);
+				$("#ui_usuario").val('');
+				$("#ui_contrasena").val('');
+				$("#u_correo").val('');
+				$("#u_nomina").val('');
+			}
+		
+		})
+
+	});
+	$("#instrupdate").on("click", function(){
+		var JSONdata = $("#instrmodify").serializeArray();
+			
+		$.ajax({
+			url: "../../php/instrupdate.php",
+			type: "POST",		
+			data: JSONdata,
+			dataType: 'JSON',
+			success: function(data){
+				showMessage(data.status, 5000);
+				$("#ui_usuario").val('');
+				$("#ui_contrasena").val('');
+				$("#u_correo").val('');
+				$("#u_nomina").val('');
+			}
+		
+		})
+
 	});
 
 

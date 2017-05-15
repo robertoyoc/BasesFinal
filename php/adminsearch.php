@@ -3,7 +3,7 @@
 
 	$usuario = $_POST['usuario'];
 
-	$query = "select usuario from usuarios where usuario= '$usuario'";
+	$query = "select usuario, perfil from usuarios where usuario= '$usuario'";
 
 	$enlace->real_query($query);
 	$resultado = $enlace->use_result();
@@ -11,11 +11,11 @@
 
 	if($resultado){
 		$fila = $resultado->fetch_assoc();
-		if($fila['usuario'] != ""){
+		if($fila['usuario'] != "" &&$fila['perfil']=='admin'){
 			$result = array('usuario' => $fila['usuario'], 'status' => 'Encontrado');
 		}
 		else{
-			$result = array('usuario' => "", 'status' => 'Error, no encontrado');
+			$result = array('usuario' => "", 'status' => 'No encontrado');
 		}
 
 	}
