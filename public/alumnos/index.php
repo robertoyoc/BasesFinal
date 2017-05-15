@@ -30,26 +30,28 @@
 <section class="container">
 	<section class="initial-data">
 		<h3>Registrar nuevo alumno</h3>
-		<form onsubmit="return registrar()">
-			<p>Nombre (s): </p> <input type="text" id="f_name" name="f_name" required><br>
+		<form id="studentregister">
+			<p>Nombre (s): </p> <input type="text" id="f_name" name="nombre" required><br>
   			<p>Apellido Paterno:</p>  <input type="text" id="ap_pat" name="ap_pat" required><br>
   			<p>Apellido Materno:</p>  <input type="text" id="ap_mat" name="ap_mat" required><br>
-  			<p>Matrícula:</p>  <input type="text" id="matricula" name="id" required=""><br><br>
+  			<p>Matrícula:</p>  <input type="text" id="matricula" name="matricula" required=""><br><br>
   			<input type="submit" value="Registrar">
   		</form>
 	</section>
 	<section class="initial-data">
-		<h3>Buscar información del alumno </h3>
-		<form onsubmit=" return search()">
-  			<p>Matrícula:</p>  <input type="text" id="findmatricula" name="id" required="">
+		<h3>Modificar información del alumno </h3>
+		<form id="studentsearch">
+  			<p>Matrícula:</p>  <input type="text" id="findmatricula" name="matricula" required="">
   			<input type="submit" value="Buscar">
   		</form>
   		<br>
-  		<form>
-  			<p>Nombre (s): </p> <input type="text" id="rf_name" name="rf_name" readonly><br>
-  			<p>Apellido Paterno:</p>  <input type="text" id="rap_pat" name="rap_pat" readonly><br>
-  			<p>Apellido Materno:</p>  <input type="text" id="rap_mat" name="rap_mat" readonly><br>
-  			<p>Matrícula:</p>  <input type="text" id="rmatricula" name="rmatricula" readonly><br><br>
+  		<form id="studentmodify">
+  			<p>Nombre (s): </p> <input type="text" id="rf_name" name="nombre" ><br>
+  			<p>Apellido Paterno:</p>  <input type="text" id="rap_pat" name="ap_pat"><br>
+  			<p>Apellido Materno:</p>  <input type="text" id="rap_mat" name="ap_mat"><br>
+  			<p>Matrícula:</p>  <input type="text" id="rmatricula" name="matricula" readonly=""><br><br>
+  			<input type="button" id="studentdelete" value="Borrar">
+  			<input type="button" id="studentupdate" value="Actualizar">
   		</form>
 	</section>
 
@@ -63,70 +65,101 @@
 
 <script type="text/javascript">
 message = $("#message");
-	function registrar(){
-		var fname = document.getElementById('f_name').value;
-		var appat = document.getElementById('ap_pat').value;
-		var apmat = document.getElementById('ap_mat').value;
-		var mat = document.getElementById('matricula').value;
-		var tamaño = mat.length;
-		if(tamaño+1!=10){
-			message.html("La matrícula debe tener una extensión de 10 caracteres");
-			message.css("visibility", "visible");
-			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-		}
-		else{
-			var dataen = 'matricula=' + mat+ '&nombre=' + fname + '&ap_pat=' + appat  + '&ap_mat=' + apmat; 
-			$.ajax({
-			url: "../../php/studentregister.php",
-			type: "POST",		
-			data: dataen
-			}).done(function(echo){
-			if (echo != "") {
-				message.html(echo);
-				message.css("visibility", "visible");
-				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-			}
 
-		});
-		}
-	return false;
-	}
-	function search(){
-				document.getElementById("rmatricula").value= "";
-				document.getElementById("rf_name").value= "";
-				document.getElementById("rap_pat").value= "";
-				document.getElementById("rap_mat").value= "";
-		var mat = document.getElementById('findmatricula').value;
-		var tamaño = mat.length;
-		if(tamaño+1!=10){
-			message.html("La matrícula debe tener una extensión de 10 caracteres");
-			message.css("visibility", "visible");
-			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-		}
-		else{
-			var dataen = 'matricula=' + mat;
-			$.ajax({
-			url: "../../php/studentsearch.php",
-			type: "POST",		
-			data: dataen	
-			}).done(function(echo){
-			var data = echo.split(";");
-			if (data.length == 4) {
-				var data = echo.split(";");
-				document.getElementById("rmatricula").value= data[0];
-				document.getElementById("rf_name").value= data[1];
-				document.getElementById("rap_pat").value= data[2];
-				document.getElementById("rap_mat").value= data[3];
-			}
-			else{
-				message.html("Alumno no encontrado");
-				message.css("visibility", "visible");
-				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-			}
+function showMessage(data,time){
+	message.html(data);
+	message.css("visibility", "visible");
+	setTimeout(function(){message.css("visibility", "hidden");  }, time);
+}
 
-		});
-		}
-	return false;
+$("#studentregister").on('submit', function (e){
+	e.preventDefault();
+	var mat = document.getElementById('matricula').value;
+	var tamaño = mat.length;
+	if(tamaño+1!=10){
+		showMessage("La matricula debe tener una extensión de 10 caracteres", 3000);
 	}
+	else{
+		var JSONdata = $("#studentregister").serializeArray();
+		$("#f_name").val('');
+		$("#ap_pat").val('');
+		$("#ap_mat").val('');
+		$("#matricula").val('');
+		$.ajax({
+		url: "../../php/studentregister.php",
+		type: "POST",		
+		data: JSONdata,
+		dataType: 'JSON',
+		success: function (data){
+			showMessage(data.status, 3000);
+		}
+		});
+
+	}
+
+});
+$("#studentsearch").on('submit', function (e){
+	e.preventDefault();
+	var mat = document.getElementById('findmatricula').value;
+	var tamaño = mat.length;
+	if(tamaño+1!=10){
+		showMessage("La matricula debe tener una extensión de 10 caracteres", 3000);
+	}
+	else{
+		var JSONdata = $("#studentsearch").serializeArray();
+		$("#findmatricula").val('');
+		
+		$.ajax({
+		url: "../../php/studentsearch.php",
+		type: "POST",		
+		data: JSONdata,
+		dataType: 'JSON',
+		success: function (data){
+			if(data.status=="Encontrado"){
+				$("#rmatricula").val(data.matricula);
+				$("#rf_name").val(data.nombre);
+				$("#rap_pat").val(data.ap_pat);
+				$("#rap_mat").val(data.ap_mat);
+			}
+			showMessage(data.status, 3000);
+		}
+		});
+
+	}
+
+});
+$("#studentdelete").on('click', function (e){
+		var JSONdata = $("#studentmodify").serializeArray();
+		
+		$.ajax({
+		url: "../../php/studentdelete.php",
+		type: "POST",		
+		data: JSONdata,
+		dataType: 'JSON',
+		success: function (data){
+			$("#rmatricula").val('');
+			$("#rf_name").val('');
+			$("#rap_pat").val('');
+			$("#rap_mat").val('');
+			showMessage(data.status, 3000);
+		}
+		});
+
+});
+$("#studentupdate").on('click', function (e){
+		var JSONdata = $("#studentmodify").serializeArray();
+		
+		$.ajax({
+		url: "../../php/studentupdate.php",
+		type: "POST",		
+		data: JSONdata,
+		dataType: 'JSON',
+		success: function (data){
+			showMessage(data.status, 3000);
+		}
+		});
+
+});
+
 </script>
 </html>
