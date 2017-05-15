@@ -12,10 +12,12 @@ $enlace = mysqli_connect("localhost", "proyectofinal", "kevin", "proyectofinal")
 	$name = $_POST['name'];
 	$instructor = $_POST['instructor'];
 	$password = $_POST['password'];
-	$matricula = $_POST['matricula'];
+	$imatricula = $_POST['imatricula'];
+	$dmatricula = $_POST['dmatricula'];
 
 	$query = "insert into curso values ('$clave', '$name', '$instructor', '$password');";
-	$inscribe = "insert into inscripcion values ('$matricula', 'clave');";
+	$inscribe = "insert into inscripcion values ('$imatricula', 'clave');";
+	$desinscribe = "delete from inscripcion where matricula = '$dmatricula';";
 
 	if ($enlace->query($query) === TRUE) {
     	echo "Curso actualizado correctamente";

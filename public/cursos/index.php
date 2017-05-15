@@ -38,9 +38,15 @@
 				<option value="LA">LA</option>
 			</select><br>
 			<p>Clave:</p><input type="text" name="id" id="clavemateria" required><br>
-			
-
-
+			<?php
+			$instruct = "SELECT nomina FROM instructor ORDER BY id asc"
+			$nominas =  mysql_query ($instruct);
+			<select name="instructores">
+				while ( $inst = mysql_fetch_array($nominas)){
+					echo "<option value='".$inst[id_instructor]."'> ". $id_instructor."</option>";
+				}
+			</select>
+			?>
 			<p>Contraseña:</p><input type="text" name="password" id="password" required><br>
 			<input type="submit" value="Registrar">
 		</form>
@@ -69,9 +75,11 @@
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name"><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave"><br>
 			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor"><br>
-			<p>Contraseña:</p><input type="text" id="r_password" name="r_password"><br><br>
-			<p>Inscribir alumno:</p><input type="text" name="matricula" id="matricula">
-			<input type="submit" value="Registrar">
+			<p>Contraseña:</p><input type="text" id="r_password" name="r_password"><br>
+			<p>Inscribir alumno:</p><input type="text" name="imatricula" id="imatricula">
+			<input type="submit" value="Inscribir"><br>
+			<p>Desinscribir alumno:</p><input type="text" name="dmatricula" id="dmatricula">
+			<input type="submit" value="Desinscribir"><br>
 		</form>
 	</section>
 	<section id="delete">
@@ -167,23 +175,32 @@ message = $("#message");
 		var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
 		var instructor = document.getElementById('instructor').value;
 		var password = document.getElementById('password').value;
-		var matricula = document.getElementById('matricula').value;
+		var imatricula = document.getElementById('imatricula').value;
+		var dmatricula = document.getElementById('dmatricula').value;
 		var tamaño = clave.length;
-		var tamañom = matricula.length;
+		var tamañoim = imatricula.length;
+		var tamañodm = dmatricula.length;
 		if(tamaño+1!=10){
 			message.html("La clave debe tener una extensión de 10 caracteres");
 			message.css("visibility", "visible");
 			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
 		}
-		if(matricula == ""){
+		if(imatricula == ""){
 			break;
-		} else if(tamañom+1!=10){
+		} else if(tamañoim+1!=10){
 			message.html("La matrícula del alumno a registrar debe tener una extensión de 10 caracteres");
 			message.css("visibility", "visible");
 			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
 		}
+		if(dmatricula == ""){
+			break;
+		} else if(tamañodm+1!=10){
+			message.html("La matrícula del alumno a desinscribir debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		}
 		else{
-			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor + '&password=' + password + '&matricula' + matricula; 
+			var dataen = 'clave=' + clave+ '&nombre=' + name + '&instructor=' + instructor + '&password=' + password + '&imatricula' + matricula + 'dmatricula' + dmatricula; 
 			$.ajax({
 			url: "../../php/courseupdate.php",
 			type: "POST",		
@@ -198,6 +215,29 @@ message = $("#message");
 		}
 	return false;
 	}
+	function deletecourse(){
+		var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
+		var tamaño = clave.length;
+		if(tamaño+1!=10){
+			message.html("La clave debe tener una extensión de 10 caracteres");
+			message.css("visibility", "visible");
+			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+		}
+		else{
+			var dataen = 'clave=' + clave; 
+			$.ajax({
+			url: "../../php/coursedelete.php",
+			type: "POST",		
+			data: dataen
+			}).done(function(echo){
+			if (echo != "") {
+				message.html(echo);
+				message.css("visibility", "visible");
+				setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
+			}
+		});
+		}
+	return false;
 </script>
 
 </html>
