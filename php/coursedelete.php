@@ -1,16 +1,16 @@
 <?php
 	require 'conexion.php';
 
-	$clave = $_POST['clave'];
-	
-	$query = "delete from curso where clave = '$clave';";
+	$r_clave = $_POST['r_clave'];
+
+	$query = "delete from curso where clave = '$r_clave'";
 
 	if ($enlace->query($query) === TRUE) {
-    	echo "Curso borrado correctamente";
+		$result = array('status' => "Borrado", 'msg' => "Curso borrado correctamente");
 	}
 	else {
-    	echo "Error: " . $query . "<br>" . $enlace->errno;
+    	$Error=  "Error: " . $query . "<br>" . $enlace->errno;
+    	$result = array('status' => "Error", 'msg' => $Error);
 	}
-
-
+	echo json_encode($result);
 ?>

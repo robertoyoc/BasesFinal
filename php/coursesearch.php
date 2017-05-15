@@ -5,16 +5,19 @@
 
 	$query = "select * from course where clave = '$clavecurso'";
 
-	if ($enlace->query($query) === TRUE) {
-		$result = array('status' => "Encontrado", 'msg' => "Curso enconyrado correctamente");
+	$enlace->real_query($query);
+	$resultado = $enlace->use_result();
+
+	if($resultado){
+		$fila = $resultado->fetch_assoc();
+		if($fila['clavecurso'] != ""){
+			$result = array('clavecurso' => $fila['clavecurso'], 'status' => 'Encontrado');
+		}
+		else{
+			$result = array('clavecurso' => "", 'status' => 'Error, no encontrado');
+		}
 	}
-	elseif($enlace->errno==1062){
-		$result = array('status' => "No encontrado", 'msg' => "Este curso no se encuentra registrado");
-	}
-	else {
-    	$Error=  "Error: " . $query . "<br>" . $enlace->errno;
-    	$result = array('status' => "Error", 'msg' => $Error);
-	}
+
 	echo json_encode($result);
 
 ?>

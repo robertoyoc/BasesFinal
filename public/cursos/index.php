@@ -57,14 +57,14 @@
 				}
 			echo "</select><br>"
 			?>
-			<p>Contraseña:</p><input type="text" name="password" id="password" required><br>
+			<p>Contraseña:</p><input type="password" name="password" id="password" required><br>
 			<input type="submit" value="Registrar">
 		</form>
 	</section>
 	<section id="search">
 		<h3>Buscar información del curso</h3>
 		<form id="searchcourse">
-			<p>Clave:</p><input type="text" id="findclave" name="clavecurso" required>
+			<p>Clave:</p><input type="text" id="clavecurso" name="clavecurso" required>
 			<input type="submit" value="Buscar">
 		</form>
 		<br>
@@ -77,33 +77,32 @@
 	</section>
 	<section id="update">
 		<h3>Modificar datos de un curso</h3>
-		<form onsubmit="return search()">
+		<form id="search">
 			<p>Clave:</p><input type="text" id="findclave" name="id" required>
 			<input type="submit" value="Buscar">
 		</form>
-		<form onsubmit="return actualizar()">
+		<form id="updatecourse">
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name"><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave"><br>
 			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor"><br>
 			<p>Contraseña:</p><input type="text" id="r_password" name="r_password"><br>
 			<p>Inscribir alumno:</p><input type="text" name="imatricula" id="imatricula">
-			<input type="submit" value="Inscribir"><br>
 			<p>Desinscribir alumno:</p><input type="text" name="dmatricula" id="dmatricula">
-			<input type="submit" value="Desinscribir"><br>
+			<input type="submit" value="Guardar"><br>
 		</form>
 	</section>
 	<section id="delete">
 		<h3>Eliminar un curso</h3>
-		<form onsubmit="return search()">
+		<form id="searchcourse">
 			<p>Clave:</p><input type="text" id="findclave" name="id" required>
-			<input type="submit" value="Buscar">
+			<input type="submit" value="Buscar"><br>
 		</form>
-		<form onsubmit="return deletecourse()">
+		<form id="deletecourse">
 			<p>Nombre:</p><input type="text" name="r_name" id="r_name" readonly><br>
 			<p>Clave:</p><input type="text" id="r_clave" name="r_clave" readonly><br>
 			<p>Instructor:</p><input type="text" name="r_instructor" id="r_instructor" readonly><br>
 			<p>Contraseña:</p><input type="text" id="r_password" name="r_password" readonly><br><br>
-			<input type="submit">
+			<input type="submit" value="Borrar">
 		</form>
 		<br>
 	</section>
@@ -123,14 +122,6 @@ function showMessage(data, time){
 $("#courseregister").on('submit', function(e){
 	e.preventDefault();
 	//checar que clave materia sea de 4 
-	var clave = document.getElementById('carreras').value + document.getElementById('clavemateria').value;
-	var tamaño = clave.length;
-	if(tamaño+1!=6){
-			message.html("La clave debe tener una extensión de 10 caracteres");
-			message.css("visibility", "visible");
-			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-			break;
-		}
 	var JSONdata = $("#courseregister").serializeArray();
 	$.ajax({
 		url: "../../php/courseregister.php",
@@ -148,17 +139,31 @@ $("#courseregister").on('submit', function(e){
 $("#searchcourse").on('submit', function(e){
 	e.preventDefault();
 	//checar que clave materia sea de 4 
-	var clave = document.getElementById('clavecurso').value;
-	var tamaño = clave.length;
-	if(tamaño+1!=6){
-			message.html("La clave debe tener una extensión de 10 caracteres");
-			message.css("visibility", "visible");
-			setTimeout(function(){message.css("visibility", "hidden");  }, 5000);
-			break;
-		}	
 	var JSONdata = $("#searchcourse").serializeArray();
 	$.ajax({
 		url: "../../php/coursesearch.php",
+		type: "POST",	
+		dataType: 'JSON',
+		data: JSONdata,
+		success: function (data){
+			if(data.status=="Encontrado"){
+					$("#clavecurso").val(data.clavecurso);
+					showMessage(data.status, 2000);
+				}
+				else{
+					showMessage(data.status, 3000);
+				}
+		}
+	});
+});
+
+$("#updatecourse").on('submit', function(e){
+	e.preventDefault();
+	//checar que clave materia sea de 4 
+
+	var JSONdata = $("#courseregister").serializeArray();
+	$.ajax({
+		url: "../../php/courseupdate.php",
 		type: "POST",	
 		dataType: 'JSON',
 		data: JSONdata,
@@ -169,7 +174,23 @@ $("#searchcourse").on('submit', function(e){
 		}
 	});
 });
-	
+
+$("#deletecourse").on('submit', function(e){
+	e.preventDefault();
+	//checar que clave materia sea de 4 
+	var JSONdata = $("#courseregister").serializeArray();
+	$.ajax({
+		url: "../../php/coursedelete.php",
+		type: "POST",	
+		dataType: 'JSON',
+		data: JSONdata,
+		success: function (data){
+			if(data.status = "Borrado"){
+				showMessage(data.msg, 5000);
+			}
+		}
+	});
+});
 	/*function search(){
 				document.getElementById('carreras').value ="";
 				document.getElementById('clavemateria').value= "";
