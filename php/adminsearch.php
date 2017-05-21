@@ -5,7 +5,7 @@
 
 	$query = "select usuario, perfil from usuarios where usuario= '$usuario'";
 
-	$enlace->real_query($query);
+	$enlace->query($query);
 	$resultado = $enlace->use_result();
 
 
